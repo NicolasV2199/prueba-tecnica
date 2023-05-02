@@ -96,14 +96,20 @@
     </div>
 
     <div class="logreg-slider d-inline-block bg-success p-5 position-relative">
-      <div class="circle bg-secondary mx-auto"></div>
-      <img src="@/assets/images/slider-login1.png" alt="" class="slider-image">
-      <div class="logreg-footer-text">
-        <h2>anime <span class="text-primary yabu">yabu.</span></h2>
-        <p class="fs-2r">Ver anime en línea en HD, subtitulado o doblado, en tu celular o computadora. ¡Animeyabu, tu
+
+      <div class="circle bg-secondary mx-auto position-absolute"></div>
+      <b-carousel id="carousel-fade" indicators interval="3000" v-model="slide">
+        <b-carousel-slide :img-src="sliderLogin1" class="slide1"></b-carousel-slide>
+        <b-carousel-slide :img-src="sliderLogin2" class="slide2"></b-carousel-slide>
+        <b-carousel-slide :img-src="sliderLogin3" class="slide3"></b-carousel-slide>
+      </b-carousel>
+      <div class="logreg-footer-text position-absolute">
+        <h2>anime <span class="text-primary yabu">{{ tittle }}.</span></h2>
+        <p>Ver anime en línea en HD, subtitulado o doblado, en tu celular o computadora. ¡Animeyabu, tu
           portal de anime en
           línea!</p>
       </div>
+
     </div>
 
   </div>
@@ -114,13 +120,14 @@ import useAuth from "../composables/useAuth";
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-import { inject, ref } from 'vue';
+import { inject, ref, watch } from 'vue';
+
 
 export default {
 
   setup() {
 
-    const { email, password, showPassword, publicKey, timezone, signature, token, getTimeZone } = useAuth();
+    const { email, password, showPassword, publicKey, timezone, signature, token, getTimeZone, sliderLogin1, sliderLogin2, sliderLogin3, slide, tittle } = useAuth();
 
     axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
     const Swal = inject('$swal');
@@ -182,6 +189,12 @@ export default {
     const submitRegister = () => {
       const user = initializeUser();
 
+      Swal.fire({
+        title: 'Espere por favor',
+        allowOutsideClick: true,
+      })
+      Swal.showLoading();
+
       axios.post('register', user)
         .then((response) => {
           token.value = response.data.token;
@@ -210,7 +223,20 @@ export default {
         })
     }
 
+    watch(slide, (newValue) => {
+      switch (newValue) {
+        case 1:
+          tittle.value = 'Kyojuro';
+          break;
+        case 2:
+          tittle.value = 'Inosuke';
+          break;
 
+        default:
+          tittle.value = 'yabu';
+          break;
+      }
+    });
 
     return {
       email,
@@ -234,7 +260,12 @@ export default {
       lastName,
       identification,
       personType,
-      options
+      options,
+      slide,
+      tittle,
+      sliderLogin1,
+      sliderLogin2,
+      sliderLogin3,
     }
   }
 }

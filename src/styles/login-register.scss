@@ -6,7 +6,7 @@
     width: 50%;
   }
 
-  .logreg-exit{
+  .logreg-exit {
     top: 3rem;
     left: 3rem;
   }
@@ -45,13 +45,32 @@
   }
 
   .logreg-footer-text {
-    margin-top: 9rem;
+    bottom: 10%;
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  #carousel-fade {
+    height: 100%;
+  }
+
+  .carousel-item {
+    background-color: transparent !important;
   }
 
   .circle {
     width: 30vw;
     border-radius: 50%;
     padding-bottom: 30vw;
+    left: 20%;
+  }
+
+  .carousel-item {
+    img {
+      margin: 0 auto;
+      width: 90% !important;
+    }
   }
 
   .slider-image {
@@ -65,23 +84,46 @@
     font-size: 5rem;
   }
 
-  @media ( max-width: 768px ){
-    .logreg-fields{
+  //Medium
+  @media (max-width: 768px) {
+    .logreg-fields {
       background-image: linear-gradient(to bottom, #CA38ED, #3E1149, #050106) !important;
       width: 100% !important;
     }
 
-    .logreg-body{
+    .logreg-body {
       width: 100% !important;
     }
 
-    .logreg-slider{
+    .logreg-slider {
       display: none !important;
     }
   }
 
-  @media (max-width: 576px), (min-width: 768px) and (max-width: 1000px){
-    .text::before, .text::after{
+  //Extra-large
+  @media (min-width: 1200px) {
+    .slide1 img {
+      width: 75% !important;
+    }
+
+    .slide2 img, .slide3 img {
+      width: 60% !important;
+    }
+  }
+
+  //Extra-large
+  @media (min-width: 1500px) {
+
+    .slide2 img, .slide3 img {
+      width: 50% !important;
+    }
+  }
+
+  @media (max-width: 576px),
+  (min-width: 768px) and (max-width: 1000px) {
+
+    .text::before,
+    .text::after {
       width: 10% !important;
     }
   }

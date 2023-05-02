@@ -2,6 +2,10 @@ import { ref } from "vue"
 import CryptoJS from "crypto-js";
 import axios from "axios";
 
+import sliderLogin1 from '@/assets/images/slider-login1.png'
+import sliderLogin2 from '@/assets/images/slider-login2.png'
+import sliderLogin3 from '@/assets/images/slider-login3.png'
+
 const useAuth = () => {
 
   //Data
@@ -13,6 +17,9 @@ const useAuth = () => {
   const signature = ref('');
   const timezone = ref(null);
   const token = ref('');
+
+  const slide = ref(0);
+  const tittle = ref('yabu');
 
   axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 
@@ -43,6 +50,11 @@ const useAuth = () => {
     signature,
     timezone,
     token,
+    sliderLogin1,
+    sliderLogin2,
+    sliderLogin3,
+    slide,
+    tittle,
 
     getTimeZone,
     hash256,

@@ -1,6 +1,7 @@
 <template>
   <div class="full-container bg-black text-start">
-    <h3>Hola {{ user.name }}</h3>
+    <h3 v-if="user.name">Hola {{ user.name }}</h3>
+    <h3 v-else>Hola {{ user.razon_social }}</h3>
 
     <p class="fw-600">Selecciona una opción: </p>
 

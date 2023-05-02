@@ -15,15 +15,15 @@
 
         <b-form @submit.prevent="submitLogin">
           <b-form-group label="Email" class="mt-2 text-start w-75 mx-auto">
-            <b-form-input aria-describedby="Email-feedback" class="form-control-rounded" type="text" v-model="email" email
-              required>
+            <b-form-input aria-describedby="Email-feedback" class="form-control-rounded"
+              required type="text" v-model="email" email>
             </b-form-input>
           </b-form-group>
 
           <b-form-group label="Contraseña" class="mt-2 text-start w-75 mx-auto">
             <b-input-group>
-              <b-form-input id="password" v-model="password" :type="showPassword ? 'text' : 'password'"
-                required></b-form-input>
+              <b-form-input id="password" v-model="password"
+                :type="showPassword ? 'text' : 'password'" required></b-form-input>
               <i class="fas fa-eye show-icon pointer" @click="showPassword = !showPassword"></i>
             </b-input-group>
             <p class="my-1 text-end"><small class="text-secondary pointer fw-600">¿Olvidaste tu contraseña?</small></p>
@@ -49,16 +49,22 @@
 
     </div>
 
-    <div class="logreg-slider d-inline-block bg-success p-5 position-relative">
-      <div class="circle bg-secondary mx-auto"></div>
-      <img src="@/assets/images/slider-login1.png" alt="" class="slider-image">
 
-      <div class="logreg-footer-text">
-        <h2>anime <span class="text-primary yabu">yabu.</span></h2>
-        <p class="fs-2r">Ver anime en línea en HD, subtitulado o doblado, en tu celular o computadora. ¡Animeyabu, tu
+    <div class="logreg-slider d-inline-block bg-success p-5 position-relative">
+
+      <div class="circle bg-secondary mx-auto position-absolute"></div>
+      <b-carousel id="carousel-fade" indicators interval="3000" v-model="slide">
+        <b-carousel-slide :img-src="sliderLogin1" class="slide1"></b-carousel-slide>
+        <b-carousel-slide :img-src="sliderLogin2" class="slide2"></b-carousel-slide>
+        <b-carousel-slide :img-src="sliderLogin3" class="slide3"></b-carousel-slide>
+      </b-carousel>
+      <div class="logreg-footer-text position-absolute">
+        <h2>anime <span class="text-primary yabu">{{ tittle }}.</span></h2>
+        <p>Ver anime en línea en HD, subtitulado o doblado, en tu celular o computadora. ¡Animeyabu, tu
           portal de anime en
           línea!</p>
       </div>
+
     </div>
 
   </div>
@@ -69,20 +75,20 @@ import useAuth from "../composables/useAuth";
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-import { inject } from 'vue';
+import { inject, watch } from 'vue';
 
 export default {
 
-  setup(){
+  setup() {
 
-    const {email, password, showPassword, publicKey, timezone, signature, token, getTimeZone} = useAuth();
+    const { email, password, showPassword, publicKey, timezone, signature, token, getTimeZone, sliderLogin1, sliderLogin2, sliderLogin3, slide, tittle } = useAuth();
 
     axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
     const Swal = inject('$swal');
 
     const store = useStore();
     const router = useRouter();
-    
+
     getTimeZone();
 
     const submitLogin = () => {
@@ -91,6 +97,8 @@ export default {
         allowOutsideClick: true,
       })
       Swal.showLoading();
+
+
       axios.post('login', {
         'email': email.value,
         'password': password.value,
@@ -98,10 +106,10 @@ export default {
         'utcTimeStamp': timezone.value,
         'signature': signature.value
       })
-        .then(({data}) => {
+        .then(({ data }) => {
           token.value = data.access_token;
           store.dispatch('Modulo/logUserIn', token.value)
-          
+
           Swal.fire({
             title: 'Exito',
             text: 'Inicio de sesión exitoso',
@@ -121,11 +129,27 @@ export default {
             confirmButtonText: '¡Entendido!',
             timer: 20000
           });
-  
+
         })
     }
 
-    return{
+
+    watch(slide, (newValue) => {
+      switch (newValue) {
+        case 1:
+          tittle.value = 'Kyojuro';
+          break;
+        case 2:
+          tittle.value = 'Inosuke';
+          break;
+
+        default:
+          tittle.value = 'yabu';
+          break;
+      }
+    });
+
+    return {
       email,
       password,
       showPassword,
@@ -135,6 +159,12 @@ export default {
       token,
       submitLogin,
       getTimeZone,
+      sliderLogin1,
+      sliderLogin2,
+      sliderLogin3,
+
+      slide,
+      tittle,
     }
   }
 

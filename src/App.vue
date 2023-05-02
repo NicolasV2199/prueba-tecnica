@@ -33,10 +33,10 @@ export default {
   created() {
     const token = localStorage.getItem('token');
     if(token){
-      this.expirationDate = this.decodeToken(localStorage.getItem('token')).exp;
+      this.expirationDate = new Date(this.decodeToken(localStorage.getItem('token')).exp * 1000);
     }
     if (token && this.expirationDate) {
-      const now = Date.now() / 1000;
+      const now = new Date();
       if (this.expirationDate < now) {
         this.logUserOut();
         this.$router.push({name: 'login'});
@@ -45,7 +45,7 @@ export default {
         setTimeout(() => {
           const token = localStorage.getItem('token');
           if (token && this.expirationDate) {
-            const now = Date.now() /1000;
+            const now = new Date();
             if (this.expirationDate < now) {
               this.logUserOut();
               this.$router.push({name: 'login'});

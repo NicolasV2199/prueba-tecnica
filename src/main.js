@@ -18,7 +18,10 @@ import './styles/styles.scss';
 //axios
 import axios from 'axios';
 const api = axios.create({
-  baseURL: process.env.VUE_APP_BASE_URL
+  baseURL: process.env.VUE_APP_BASE_URL,
+  headers: {
+    'Accept': 'application/json'
+  }
 })
 app.config.globalProperties.$axios = api;  
 
