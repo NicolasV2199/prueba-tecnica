@@ -1,0 +1,88 @@
+.logreg-container {
+  min-height: 100vh;
+
+  .logreg-fields,
+  .logreg-slider {
+    width: 50%;
+  }
+
+  .logreg-exit{
+    top: 3rem;
+    left: 3rem;
+  }
+
+  .text-container {
+    position: relative;
+
+    .text {
+
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 20%;
+        height: 1px;
+        background-color: white;
+      }
+
+      &::before {
+        left: 0;
+      }
+
+      &::after {
+        right: 0;
+      }
+    }
+  }
+
+  .show-icon {
+    position: absolute;
+    color: black;
+    right: 8px;
+    top: 8px;
+    z-index: 10;
+  }
+
+  .logreg-footer-text {
+    margin-top: 9rem;
+  }
+
+  .circle {
+    width: 30vw;
+    border-radius: 50%;
+    padding-bottom: 30vw;
+  }
+
+  .slider-image {
+    position: absolute;
+    top: 10%;
+    left: 22%;
+    width: 32vw;
+  }
+
+  .yabu {
+    font-size: 5rem;
+  }
+
+  @media ( max-width: 768px ){
+    .logreg-fields{
+      background-image: linear-gradient(to bottom, #CA38ED, #3E1149, #050106) !important;
+      width: 100% !important;
+    }
+
+    .logreg-body{
+      width: 100% !important;
+    }
+
+    .logreg-slider{
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 576px), (min-width: 768px) and (max-width: 1000px){
+    .text::before, .text::after{
+      width: 10% !important;
+    }
+  }
+}

@@ -1,10 +1,63 @@
 <template>
-  <nav>
+  <!-- <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  </nav> -->
+  <router-view />
 </template>
+
+<script>
+import { mapActions } from "vuex";
+export default {
+
+  data(){
+    return{
+      expirationDate: null,
+    }
+  },
+
+  methods: {
+    ...mapActions('Modulo', ['verifyStore', 'logUserOut']),
+
+    decodeToken(token) {
+
+      try {
+        return JSON.parse(atob(token.split('.')[1]))
+      } catch (error) {
+        return null;
+      }
+    }
+  },
+
+
+  created() {
+    const token = localStorage.getItem('token');
+    if(token){
+      this.expirationDate = this.decodeToken(localStorage.getItem('token')).exp;
+    }
+    if (token && this.expirationDate) {
+      const now = Date.now() / 1000;
+      if (this.expirationDate < now) {
+        this.logUserOut();
+        this.$router.push({name: 'login'});
+      } else {
+        const timeout = this.expirationDate - now;
+        setTimeout(() => {
+          const token = localStorage.getItem('token');
+          if (token && this.expirationDate) {
+            const now = Date.now() /1000;
+            if (this.expirationDate < now) {
+              this.logUserOut();
+              this.$router.push({name: 'login'});
+            }
+          }
+        }, timeout);
+      }
+    }
+  }
+
+}
+</script>
 
 <style>
 #app {
